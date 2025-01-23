@@ -1,0 +1,94 @@
+using System;
+
+public class Nodo
+{
+    public int Dato;
+    public Nodo Siguiente;
+
+    public Nodo(int dato)
+    {
+        Dato = dato;
+        Siguiente = null;
+    }
+}
+
+public class ListaEnlazada
+{
+    public Nodo Cabeza;
+
+    public ListaEnlazada()
+    {
+        Cabeza = null;
+    }
+
+    public void Agregar(int dato)
+    {
+        Nodo nuevoNodo = new Nodo(dato);
+        nuevoNodo.Siguiente = Cabeza;
+        Cabeza = nuevoNodo;
+    }
+
+    public void EliminarFueraDeRango(int minimo, int maximo)
+    {
+        while (Cabeza != null && (Cabeza.Dato < minimo || Cabeza.Dato > maximo))
+        {
+            Cabeza = Cabeza.Siguiente;
+        }
+
+        Nodo actual = Cabeza;
+
+        while (actual?.Siguiente != null)
+        {
+            if (actual.Siguiente.Dato < minimo || actual.Siguiente.Dato > maximo)
+            {
+                actual.Siguiente = actual.Siguiente.Siguiente;
+            }
+            else
+            {
+                actual = actual.Siguiente;
+            }
+        }
+    }
+
+    public void Mostrar()
+    {
+        Nodo actual = Cabeza;
+        while (actual != null)
+        {
+            Console.Write(actual.Dato + " -> ");
+            actual = actual.Siguiente;
+        }
+        Console.WriteLine("null");
+    }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        ListaEnlazada lista = new ListaEnlazada();
+        Random rnd = new Random();
+
+        // Generar 50 números aleatorios entre 1 y 999
+        for (int i = 0; i < 50; i++)
+        {
+            lista.Agregar(rnd.Next(1, 1000));
+        }
+
+        Console.WriteLine("Lista original:");
+        lista.Mostrar();
+
+        // Leer rango desde el teclado
+        Console.WriteLine("Ingrese el rango mínimo:");
+        int minimo = int.Parse(Console.ReadLine());
+
+        Console.WriteLine("Ingrese el rango máximo:");
+        int maximo = int.Parse(Console.ReadLine());
+
+        // Eliminar nodos fuera del rango
+        lista.EliminarFueraDeRango(minimo, maximo);
+
+        Console.WriteLine("Lista después de eliminar nodos fuera del rango:");
+        lista.Mostrar();
+    }
+}

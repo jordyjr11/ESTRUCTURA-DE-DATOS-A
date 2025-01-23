@@ -1,0 +1,88 @@
+using System;
+
+public class Nodo
+{
+    public int Dato;
+    public Nodo Siguiente;
+
+    public Nodo(int dato)
+    {
+        Dato = dato;
+        Siguiente = null;
+    }
+}
+
+public class ListaEnlazada
+{
+    public Nodo Cabeza;
+
+    public ListaEnlazada()
+    {
+        Cabeza = null;
+    }
+
+    public void Agregar(int dato)
+    {
+        Nodo nuevoNodo = new Nodo(dato);
+        nuevoNodo.Siguiente = Cabeza;
+        Cabeza = nuevoNodo;
+    }
+
+    public int Buscar(int valor)
+    {
+        int contador = 0;
+        Nodo actual = Cabeza;
+
+        while (actual != null)
+        {
+            if (actual.Dato == valor)
+            {
+                contador++;
+            }
+            actual = actual.Siguiente;
+        }
+
+        if (contador == 0)
+        {
+            Console.WriteLine($"El valor {valor} no fue encontrado en la lista.");
+        }
+
+        return contador;
+    }
+
+    public void Mostrar()
+    {
+        Nodo actual = Cabeza;
+        while (actual != null)
+        {
+            Console.Write(actual.Dato + " -> ");
+            actual = actual.Siguiente;
+        }
+        Console.WriteLine("null");
+    }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        ListaEnlazada lista = new ListaEnlazada();
+        lista.Agregar(5);
+        lista.Agregar(3);
+        lista.Agregar(7);
+        lista.Agregar(3);
+        lista.Agregar(1);
+
+        Console.WriteLine("Lista:");
+        lista.Mostrar();
+
+        Console.WriteLine("Ingrese el valor a buscar:");
+        int valor = int.Parse(Console.ReadLine());
+
+        int ocurrencias = lista.Buscar(valor);
+        if (ocurrencias > 0)
+        {
+            Console.WriteLine($"El valor {valor} se encontró {ocurrencias} veces en la lista.");
+        }
+    }
+}
