@@ -1,0 +1,58 @@
+using System;  
+using System.Collections.Generic;  
+
+class Program  
+{  
+    static void Main(string[] args)  
+    {  
+        // Primer ejemplo de expresión matemática  
+        string expression1 = "((5 + 3) * 2 - {4 + [2 * (6 / 3)]})";  
+        CheckExpressionBalance(expression1);  
+
+        // Segundo ejemplo de expresión matemática  
+        string expression2 = "{(3 + 2) * [5 - (1 + 4)]} + {7 / (2)}";  
+        CheckExpressionBalance(expression2);  
+    }  
+
+    static void CheckExpressionBalance(string expression)  
+    {  
+        if (IsBalanced(expression))  
+        {  
+            Console.WriteLine($"La fórmula '{expression}' está balanceada.");  
+        }  
+        else  
+        {  
+            Console.WriteLine($"La fórmula '{expression}' no está balanceada.");  
+        }  
+    }  
+
+    static bool IsBalanced(string expression)  
+    {  
+        Stack<char> stack = new Stack<char>();  
+        foreach (char c in expression)  
+        {  
+            if (c == '{' || c == '(' || c == '[')  
+            {  
+                stack.Push(c);  
+            }  
+            else if (c == '}' || c == ')' || c == ']')  
+            {  
+                if (stack.Count == 0) return false;  
+
+                char open = stack.Pop();  
+                if (!IsMatchingPair(open, c))  
+                {  
+                    return false;  
+                }  
+            }  
+        }  
+        return stack.Count == 0;  
+    }  
+
+    static bool IsMatchingPair(char open, char close)  
+    {  
+        return (open == '{' && close == '}') ||   
+               (open == '(' && close == ')') ||   
+               (open == '[' && close == ']');  
+    }  
+}
