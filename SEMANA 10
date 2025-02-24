@@ -1,0 +1,54 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+class Program
+{
+    static void Main()
+    {
+        // Crear un conjunto ficticio de 500 ciudadanos
+        HashSet<string> conjuntoTotal = new HashSet<string>();
+        for (int i = 1; i <= 500; i++)
+        {
+            conjuntoTotal.Add("Ciudadano " + i);
+        }
+
+        // Crear un conjunto ficticio de 75 ciudadanos vacunados con Pfizer
+        HashSet<string> conjuntoPfizer = new HashSet<string>();
+        Random rand = new Random();
+        while (conjuntoPfizer.Count < 75)
+        {
+            conjuntoPfizer.Add("Ciudadano " + rand.Next(1, 501));
+        }
+
+        // Crear un conjunto ficticio de 75 ciudadanos vacunados con AstraZeneca
+        HashSet<string> conjuntoAstrazeneca = new HashSet<string>();
+        while (conjuntoAstrazeneca.Count < 75)
+        {
+            conjuntoAstrazeneca.Add("Ciudadano " + rand.Next(1, 501));
+        }
+
+        // Operaciones de conjuntos
+
+        // 1. Ciudadanos que no se han vacunado
+        HashSet<string> noVacunados = new HashSet<string>(conjuntoTotal);
+        noVacunados.ExceptWith(conjuntoPfizer);
+        noVacunados.ExceptWith(conjuntoAstrazeneca);
+        Console.WriteLine("Ciudadanos no vacunados: " + noVacunados.Count);
+
+        // 2. Ciudadanos que han recibido las dos vacunas
+        HashSet<string> vacunadosAmbas = new HashSet<string>(conjuntoPfizer);
+        vacunadosAmbas.IntersectWith(conjuntoAstrazeneca);
+        Console.WriteLine("Ciudadanos vacunados con ambas vacunas: " + vacunadosAmbas.Count);
+
+        // 3. Ciudadanos que solo han recibido la vacuna de Pfizer
+        HashSet<string> soloPfizer = new HashSet<string>(conjuntoPfizer);
+        soloPfizer.ExceptWith(conjuntoAstrazeneca);
+        Console.WriteLine("Ciudadanos vacunados solo con Pfizer: " + soloPfizer.Count);
+
+        // 4. Ciudadanos que solo han recibido la vacuna de AstraZeneca
+        HashSet<string> soloAstrazeneca = new HashSet<string>(conjuntoAstrazeneca);
+        soloAstrazeneca.ExceptWith(conjuntoPfizer);
+        Console.WriteLine("Ciudadanos vacunados solo con AstraZeneca: " + soloAstrazeneca.Count);
+    }
+}
